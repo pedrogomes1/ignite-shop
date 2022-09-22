@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { AppProps } from "next/app";
 import { globalStyles } from "../styles/global";
 
@@ -10,7 +11,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Container>
       <Header>
-        <img src={logoImg.src} alt="Ignite shop logo" />
+        <Image src={logoImg} alt="Ignite shop logo" />
       </Header>
       <Component {...pageProps} />
     </Container>
