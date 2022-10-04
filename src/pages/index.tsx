@@ -1,22 +1,20 @@
+import { GetStaticProps } from "next";
+import Head from "next/head";
+import Link from "next/link";
 import Image from "next/image";
-import { GetServerSideProps, GetStaticProps } from "next";
-import { useKeenSlider } from "keen-slider/react";
-import { HomeContainer, Product } from "../styles/pages/home";
-
-import shirt1 from "../assets/shirt/1.png";
-import shirt2 from "../assets/shirt/2.png";
-import shirt3 from "../assets/shirt/3.png";
-
-import "keen-slider/keen-slider.min.css";
-import { stripe } from "../../lib/stripe";
 import Stripe from "stripe";
+import { stripe } from "../../lib/stripe";
+import { useKeenSlider } from "keen-slider/react";
+
+import { HomeContainer, Product } from "../styles/pages/home";
+import "keen-slider/keen-slider.min.css";
 
 interface HomeProps {
   products: {
     id: string;
     name: string;
     imageUrl: string;
-    price: number;
+    price: string;
   }[];
 }
 
@@ -28,18 +26,30 @@ export default function Home({ products }: HomeProps) {
     },
   });
   return (
-    <HomeContainer ref={sliderRef} className="keen-slider">
-      {products.map((product) => (
-        <Product key={product.id} className="keen-slider__slide">
-          <Image src={product.imageUrl} width={520} height={400} alt="" />
+    <>
+      <Head>
+        <title>Home | Ignite shop</title>
+      </Head>
 
-          <footer>
-            <strong>{product.name}</strong>
-            <span>{product.price}</span>
-          </footer>
-        </Product>
-      ))}
-    </HomeContainer>
+      <HomeContainer ref={sliderRef} className="keen-slider">
+        {products.map((product) => (
+          <Link
+            key={product.id}
+            href={`/product/${product.id}`}
+            prefetch={false}
+          >
+            <Product className="keen-slider__slide">
+              <Image src={product.imageUrl} width={520} height={400} alt="" />
+
+              <footer>
+                <strong>{product.name}</strong>
+                <span>{product.price}</span>
+              </footer>
+            </Product>
+          </Link>
+        ))}
+      </HomeContainer>
+    </>
   );
 }
 
